@@ -69,6 +69,16 @@ app.post('/logout', (req,res) => {
     res.cookie('token', '', { expires: new Date(0) }).json('ok');
   });
 
+  app.post('/publicacao', uploadMiddleware.single('file'), async (req,res) => {
+    const {originalname,path} = req.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path+'.'+ext;
+    fs.renameSync(path, newPath);
+
+
+  })
+
 app.listen(4000, () => {
     console.log('Server is running on port 4000');
 });
